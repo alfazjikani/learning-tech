@@ -1,1 +1,3 @@
-# student-management-nodejs
+Steps:
+1. npm i
+2. npm start
