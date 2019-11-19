@@ -60,13 +60,11 @@ exports.saveStudentForm = [
 
 exports.getStudentList = function(req, res, next) {
     Student.find({})
-    .exec(function(error, result) {
+    .exec(function(error, list_student) {
         if(error) {
             throw error;
         }
-        console.log('getStudentList');
-        console.log(result);
 
-        res.render('student_list', {title: 'Student List'});
+        res.render('student_list', {title: 'Student List', student_list: list_student});
     });
 };

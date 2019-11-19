@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var moment = require('moment');
 
 var Counter = require('./counter');
 
@@ -12,10 +13,19 @@ var StudentSchema = new Schema({
     address: {type: String}
 });
 
+StudentSchema.virtual('name')
+.get(function() {
+    return this.first_name + ' ' + this.family_name;
+});
+
+StudentSchema.virtual('age')
+.get(function() {
+    return moment().diff(this.date_of_birth, 'years');
+});
+
 StudentSchema.virtual('formatted_student_id')
 .get(function() {
-    console.log('inside virtual');
-    return 'NPS';
+    return 'NPS' + this.student_id;
 });
 
 StudentSchema.pre('save', function(next){

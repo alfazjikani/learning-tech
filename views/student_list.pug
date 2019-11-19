@@ -1,4 +1,17 @@
 extends layout
 
 block content
-    h1= title
+    h2= title
+    
+    table.table
+        thead
+            tr
+                th.text-center Name
+                th.text-center Age
+                th.text-center Address
+        tbody
+            for student in student_list
+                tr
+                    td.text-center #{student.name}
+                    td.text-center #{student.age}
+                    td.text-center #{student.address}
