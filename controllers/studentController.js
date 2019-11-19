@@ -49,11 +49,7 @@ exports.saveStudentForm = [
                 }
             });
 
-            res.render('student_form', {
-                title: 'Add Student', 
-                errorMessages: errorMessages, 
-                student: student
-            });
+            res.redirect('/student/list');
         }
     }
 ];

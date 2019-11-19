@@ -3,6 +3,11 @@ var studentController = require('../controllers/studentController');
 
 var router = express.Router();
 
+// Default Student Root Path
+router.get('/', function(req, res, next) {
+    res.redirect('/student/list');
+});
+
 // Get Student Form
 router.get('/add', studentController.getStudentForm);
 

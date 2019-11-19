@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    h2= title
+    h2.text-center= title
 
     form(method='POST', action='')
         - if(!student) { student = {}; }
@@ -27,4 +27,5 @@ block content
             input#address.form-control(name='address', type='text', value=student.address)
 
         button.btn.btn-primary(type='submit') Submit
+        a.btn.btn-default(href='list') Cancel
         
