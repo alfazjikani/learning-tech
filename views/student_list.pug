@@ -8,12 +8,14 @@ block content
     table#student-list.table
         thead
             tr
+                th.text-center ID
                 th.text-center Name
                 th.text-center Age
                 th.text-center Address
         tbody
             for student in student_list
                 tr
+                    td.text-center #{student.formatted_student_id}
                     td.text-center #{student.name}
                     td.text-center #{student.age}
                     td.text-center #{student.address}

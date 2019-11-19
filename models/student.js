@@ -25,7 +25,13 @@ StudentSchema.virtual('age')
 
 StudentSchema.virtual('formatted_student_id')
 .get(function() {
-    return 'NPS' + this.student_id;
+    var studentIdLength = this.student_id.toString().length;
+    var formatted_student_id = this.student_id;
+    for(var index=studentIdLength;index<5;index++) {
+        formatted_student_id = '0' + formatted_student_id;
+    }
+    
+    return 'NPS' + formatted_student_id;
 });
 
 StudentSchema.pre('save', function(next){
