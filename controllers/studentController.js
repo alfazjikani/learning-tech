@@ -48,7 +48,7 @@ exports.saveStudentForm = [
                     if(error) {
                         throw error;
                     }
-                    
+
                     res.redirect('/student/list');
                 });
             } else {
@@ -66,7 +66,9 @@ exports.saveStudentForm = [
 ];
 
 exports.getStudentList = function(req, res, next) {
-    Student.find({})
+    Student.find({
+        is_archieved: {$ne: true}
+    })
     .exec(function(error, list_student) {
         if(error) {
             throw error;
@@ -88,5 +90,16 @@ exports.editStudent = function(req, res, next) {
             title: 'Edit Student', 
             student: student_detail
         });
+    });
+};
+
+exports.deleteStudent = function(req, res, next) {
+    var selectedStudentId = parseInt(req.params.id);
+    Student.findOneAndUpdate({student_id: selectedStudentId}, {is_archieved: true}, function(error, result) {
+        if(error) {
+            throw error;
+        }
+
+        res.redirect('/student/list');
     });
 };

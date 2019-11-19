@@ -17,7 +17,10 @@ router.post('/save', studentController.saveStudentForm);
 // Student List
 router.get('/list', studentController.getStudentList);
 
-// Edit Student List
-router.get('/edit/:id', studentController.editStudent)
+// Edit Student
+router.get('/edit/:id', studentController.editStudent);
+
+// Delete Student
+router.get('/delete/:id', studentController.deleteStudent)
 
 module.exports = router;

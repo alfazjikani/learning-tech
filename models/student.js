@@ -10,7 +10,8 @@ var StudentSchema = new Schema({
     first_name: {type: String, required: true, maxlength: 100, match: /^\w+$/},
     family_name: {type: String, required: true, maxlength: 100, match: /^\w+$/},
     date_of_birth: {type: Date, required: true},
-    address: {type: String}
+    address: {type: String},
+    is_archieved: {type: Boolean, required: true, default: false}
 });
 
 StudentSchema.virtual('name')
