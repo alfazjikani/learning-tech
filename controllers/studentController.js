@@ -9,6 +9,19 @@ exports.getStudentForm = function(req, res, next) {
     res.render('student_form', {title: 'Add Student'});
 };
 
+exports.getStudentList = function(req, res, next) {
+    Student.find({
+        is_archieved: {$ne: true}
+    })
+    .exec(function(error, list_student) {
+        if(error) {
+            throw error;
+        }
+
+        res.render('student_list', {title: 'Student List', student_list: list_student});
+    });
+};
+
 exports.saveStudentForm = [
     
     // validate detail
@@ -65,16 +78,19 @@ exports.saveStudentForm = [
     }
 ];
 
-exports.getStudentList = function(req, res, next) {
-    Student.find({
-        is_archieved: {$ne: true}
-    })
-    .exec(function(error, list_student) {
+exports.viewStudent = function(req, res, next) {
+    var selectedStudentId = parseInt(req.params.id);
+    Student.findOne({student_id: selectedStudentId})
+    .exec(function(error, student_detail) {
         if(error) {
             throw error;
         }
 
-        res.render('student_list', {title: 'Student List', student_list: list_student});
+        res.render('student_form', {
+            title: 'View Student', 
+            student: student_detail,
+            mode: 'read'
+        });
     });
 };
 

@@ -6,29 +6,32 @@ block content
     form(method='POST', action='/student/save')
         - if(!student) { student = {}; }
         - if(!errorMessages) { errorMessages = {}; }
+        -var readonlyForm = (mode === 'read');
         
         div.form-group.required(class= typeof errorMessages.first_name === 'undefined' ? '' : 'has-error')
             label.control-label(for='first_name') First Name: 
-            input#first_name.form-control(name='first_name', type='text', value=student.first_name)
+            input#first_name.form-control(name='first_name', type='text', value=student.first_name, readonly=readonlyForm)
             span.help-block #{errorMessages.first_name}
 
         div.form-group.required(class= typeof errorMessages.family_name === 'undefined' ? '' : 'has-error')
             label.control-label(for='family_name') Family Name: 
-            input#family_name.form-control(name='family_name', type='text', value=student.family_name)
+            input#family_name.form-control(name='family_name', type='text', value=student.family_name, readonly=readonlyForm)
             span.help-block #{errorMessages.family_name}
 
         div.form-group.required(class= typeof errorMessages.date_of_birth === 'undefined' ? '' : 'has-error')
             label.control-label(for='date_of_birth') Date of Birth: 
-            input#date_of_birth.form-control(name='date_of_birth', type='date', value=student.date_of_birth?moment(student.date_of_birth).format('YYYY-MM-DD'):'')
+            input#date_of_birth.form-control(name='date_of_birth', type='date', value=student.date_of_birth?moment(student.date_of_birth).format('YYYY-MM-DD'):'', readonly=readonlyForm)
             span.help-block #{errorMessages.date_of_birth}
 
         div.form-group
             label.control-label(for='address') Address: 
-            input#address.form-control(name='address', type='text', value=student.address)
+            input#address.form-control(name='address', type='text', value=student.address, readonly=readonlyForm)
         
-        input(style='display:none;', name='_id', value=student._id)
-        input(style='display:none;', name='student_id', value=student.student_id)
+        if mode !== 'read'
+            input(style='display:none;', name='_id', value=student._id)
+            input(style='display:none;', name='student_id', value=student.student_id)
 
-        button.btn.btn-primary(type='submit') Submit
-        a.btn.btn-default(href='/student/list') Cancel
+        if mode !== 'read'
+            button.btn.btn-primary(type='submit') Submit
+        a.btn.btn-default(href='/student/list') Back
         

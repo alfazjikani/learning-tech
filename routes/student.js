@@ -17,6 +17,9 @@ router.post('/save', studentController.saveStudentForm);
 // Student List
 router.get('/list', studentController.getStudentList);
 
+// View Student
+router.get('/view/:id', studentController.viewStudent);
+
 // Edit Student
 router.get('/edit/:id', studentController.editStudent);
 

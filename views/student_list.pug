@@ -16,7 +16,8 @@ block content
         tbody
             for student in student_list
                 tr
-                    td.text-center #{student.formatted_student_id}
+                    td.text-center 
+                        a(href='view/' + student.student_id) #{student.formatted_student_id}
                     td.text-center #{student.name}
                     td.text-center #{student.age}
                     td.text-center #{student.address}
