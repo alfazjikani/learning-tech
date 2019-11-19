@@ -1,6 +1,8 @@
 const { body, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
+var Student = require('../models/student');
+
 exports.getStudentForm = function(req, res, next) {
     res.render('student_form', {title: 'Add Student'});
 };
@@ -21,22 +23,50 @@ exports.saveStudentForm = [
     //sanitizeBody('date_of_birth').toDate(),
 
     function(req, res, next) {
-        var student = req.body;
+        var student = new Student(req.body);
         
-        var errors = validationResult(req).array();
+        var errors = validationResult(req);
+        var errorsArray = errors.array();
+        var errorsArrayLen = errorsArray.length;
         var errorMessages = {};
-        for(var index=0;index<errors.length;index++) {
-            errorMessages[errors[index].param] = errors[index].msg;
+        for(var index=0;index<errorsArrayLen;index++) {
+            errorMessages[errorsArray[index].param] = errorsArray[index].msg;
         }
 
         console.log(errors);
         console.log(req.body);
 
-        //res.send(errors);
-        res.render('student_form', {
-            title: 'Add Student', 
-            errorMessages: errorMessages, 
-            student: student
-        });
+        if(!errors.isEmpty()) {
+            res.render('student_form', {
+                title: 'Add Student', 
+                errorMessages: errorMessages, 
+                student: req.body
+            });
+        } else {
+            student.save(function(error) {
+                if(error) {
+                    throw error;
+                }
+            });
+
+            res.render('student_form', {
+                title: 'Add Student', 
+                errorMessages: errorMessages, 
+                student: student
+            });
+        }
     }
 ];
+
+exports.getStudentList = function(req, res, next) {
+    Student.find({})
+    .exec(function(error, result) {
+        if(error) {
+            throw error;
+        }
+        console.log('getStudentList');
+        console.log(result);
+
+        res.render('student_list', {title: 'Student List'});
+    });
+};

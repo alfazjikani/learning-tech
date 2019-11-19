@@ -9,4 +9,7 @@ router.get('/add', studentController.getStudentForm);
 // Save Student Form
 router.post('/add', studentController.saveStudentForm);
 
+// Student List
+router.get('/list', studentController.getStudentList);
+
 module.exports = router;

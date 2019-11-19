@@ -9,6 +9,13 @@ var studentRouter = require('./routes/student');
 
 var app = express();
 
+// initializing database connection
+var mongoose = require('mongoose');
+var mongoDBUrl = 'mongodb://localhost:27017/student_management';
+mongoose.connect(mongoDBUrl, {useNewUrlParser: true});
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection failed!!'));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
