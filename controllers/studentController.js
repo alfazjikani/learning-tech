@@ -1,7 +1,9 @@
 const { body, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
+var mongoose = require('mongoose');
 
 var Student = require('../models/student');
+var Counter = require('../models/counter');
 
 exports.getStudentForm = function(req, res, next) {
     res.render('student_form', {title: 'Add Student'});
@@ -23,8 +25,6 @@ exports.saveStudentForm = [
     //sanitizeBody('date_of_birth').toDate(),
 
     function(req, res, next) {
-        var student = new Student(req.body);
-        
         var errors = validationResult(req);
         var errorsArray = errors.array();
         var errorsArrayLen = errorsArray.length;
@@ -33,9 +33,6 @@ exports.saveStudentForm = [
             errorMessages[errorsArray[index].param] = errorsArray[index].msg;
         }
 
-        console.log(errors);
-        console.log(req.body);
-
         if(!errors.isEmpty()) {
             res.render('student_form', {
                 title: 'Add Student', 
@@ -43,13 +40,27 @@ exports.saveStudentForm = [
                 student: req.body
             });
         } else {
-            student.save(function(error) {
-                if(error) {
-                    throw error;
-                }
-            });
+            var documentId = req.body._id;
+            delete req.body._id;
+            if(!documentId) {
+                var student = new Student(req.body);
+                student.save(function(error, result) {
+                    if(error) {
+                        throw error;
+                    }
+                    
+                    res.redirect('/student/list');
+                });
+            } else {
+                Student.findByIdAndUpdate({_id:  mongoose.Types.ObjectId(documentId)}, req.body,
+                function(error, result) {
+                    if(error) {
+                        throw error;
+                    }
 
-            res.redirect('/student/list');
+                    res.redirect('/student/list');
+                });
+            }
         }
     }
 ];
@@ -62,5 +73,20 @@ exports.getStudentList = function(req, res, next) {
         }
 
         res.render('student_list', {title: 'Student List', student_list: list_student});
+    });
+};
+
+exports.editStudent = function(req, res, next) {
+    var selectedStudentId = parseInt(req.params.id);
+    Student.findOne({student_id: selectedStudentId})
+    .exec(function(error, student_detail) {
+        if(error) {
+            throw error;
+        }
+
+        res.render('student_form', {
+            title: 'Edit Student', 
+            student: student_detail
+        });
     });
 };

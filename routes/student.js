@@ -12,9 +12,12 @@ router.get('/', function(req, res, next) {
 router.get('/add', studentController.getStudentForm);
 
 // Save Student Form
-router.post('/add', studentController.saveStudentForm);
+router.post('/save', studentController.saveStudentForm);
 
 // Student List
 router.get('/list', studentController.getStudentList);
+
+// Edit Student List
+router.get('/edit/:id', studentController.editStudent)
 
 module.exports = router;
