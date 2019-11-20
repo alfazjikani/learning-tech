@@ -6,7 +6,7 @@ block content
     form(method='POST', action='/student/save')
         - if(!student) { student = {}; }
         - if(!errorMessages) { errorMessages = {}; }
-        -var readonlyForm = (mode === 'read');
+        - var readonlyForm = (mode === 'read');
         
         div.form-group.required(class= typeof errorMessages.first_name === 'undefined' ? '' : 'has-error')
             label.control-label(for='first_name') First Name: 
@@ -34,4 +34,6 @@ block content
         if mode !== 'read'
             button.btn.btn-primary(type='submit') Submit
         a.btn.btn-default(href='/student/list') Back
+    
+    script(src='/javascripts/student_form.js')
         
