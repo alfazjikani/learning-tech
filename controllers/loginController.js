@@ -55,11 +55,6 @@ exports.login = [
                         }
                     });
                 }
-
-                // res.render('login_form', {
-                //     errorMessages: errorMessages, 
-                //     user: req.body
-                // });
             });
         }
     }
@@ -68,6 +63,19 @@ exports.login = [
 exports.validateRequest = function(req, res, next) {
     if(req.session && req.session.user_id) {
         next();
+    } else {
+        res.redirect('/login');
+    }
+};
+
+exports.logout = function(req, res, next) {
+    if(req.session && req.session.user_id) {
+        req.session.destroy(function(error) {
+            if(error) {
+                throw error;
+            }
+            res.redirect('/login');
+        });
     } else {
         res.redirect('/login');
     }
