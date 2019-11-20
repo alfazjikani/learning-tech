@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
 var indexRouter = require('./routes/index');
 var studentRouter = require('./routes/student');
@@ -15,6 +17,16 @@ var mongoDBUrl = 'mongodb://localhost:27017/student_management';
 mongoose.connect(mongoDBUrl, {useNewUrlParser: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection failed!!'));
+
+// use session for login
+app.use(session({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: db
+  })
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

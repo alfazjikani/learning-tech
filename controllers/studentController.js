@@ -35,7 +35,6 @@ exports.saveStudentForm = [
     // sanitize detail
     sanitizeBody('first_name').escape(),
     sanitizeBody('last_name').escape(),
-    //sanitizeBody('date_of_birth').toDate(),
 
     function(req, res, next) {
         var errors = validationResult(req);
