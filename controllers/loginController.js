@@ -33,7 +33,7 @@ exports.login = [
             User.findOne({user_id: req.body.user_id})
             .exec(function(error, user) {
                 if(error) {
-                    throw error;
+                    next(new Error('Something went wrong!'));
                 }
 
                 if(!user) {
@@ -72,7 +72,7 @@ exports.logout = function(req, res, next) {
     if(req.session && req.session.user_id) {
         req.session.destroy(function(error) {
             if(error) {
-                throw error;
+                next(new Error('Something went wrong!'));
             }
             res.redirect('/login');
         });

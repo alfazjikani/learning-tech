@@ -15,7 +15,7 @@ exports.getStudentList = function(req, res, next) {
     })
     .exec(function(error, list_student) {
         if(error) {
-            throw error;
+            next(new Error('Something went wrong!'));
         }
 
         res.render('student_list', {title: 'Student List', student_list: list_student});
@@ -58,7 +58,7 @@ exports.saveStudentForm = [
                 var student = new Student(req.body);
                 student.save(function(error, result) {
                     if(error) {
-                        throw error;
+                        next(new Error('Something went wrong!'));
                     }
 
                     res.redirect('/student/list');
@@ -67,7 +67,7 @@ exports.saveStudentForm = [
                 Student.findByIdAndUpdate({_id:  mongoose.Types.ObjectId(documentId)}, req.body,
                 function(error, result) {
                     if(error) {
-                        throw error;
+                        next(new Error('Something went wrong!'));
                     }
 
                     res.redirect('/student/list');
@@ -82,7 +82,7 @@ exports.viewStudent = function(req, res, next) {
     Student.findOne({student_id: selectedStudentId})
     .exec(function(error, student_detail) {
         if(error) {
-            throw error;
+            next(new Error('Something went wrong!'));
         }
 
         res.render('student_form', {
@@ -98,7 +98,7 @@ exports.editStudent = function(req, res, next) {
     Student.findOne({student_id: selectedStudentId})
     .exec(function(error, student_detail) {
         if(error) {
-            throw error;
+            next(new Error('Something went wrong!'));
         }
 
         res.render('student_form', {
@@ -112,7 +112,7 @@ exports.deleteStudent = function(req, res, next) {
     var selectedStudentId = parseInt(req.params.id);
     Student.findOneAndUpdate({student_id: selectedStudentId}, {is_archieved: true}, function(error, result) {
         if(error) {
-            throw error;
+            next(new Error('Something went wrong!'));
         }
 
         res.redirect('/student/list');

@@ -12,7 +12,7 @@ UserSchema.pre('save', function(next) {
     var doc = this;
     bcrypt.hash(doc.password, 10, function(error, hash) {
         if(error) {
-            throw error;
+            next(new Error('Something went wrong!'));
         }
 
         doc.password = hash;

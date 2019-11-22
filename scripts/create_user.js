@@ -14,7 +14,7 @@ var user = new User({
 
 user.save(function(error) {
     if(error) {
-        throw error;
+        next(new Error('Something went wrong!'));
     }
 
     console.log('user saved successfully!');

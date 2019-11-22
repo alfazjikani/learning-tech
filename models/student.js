@@ -42,7 +42,7 @@ StudentSchema.pre('save', function(next){
     {upsert: true, setDefaultsOnInsert: true}, function(error, result) {
         var seq = 0;
         if(error) {
-            throw error;
+            next(new Error('Something went wrong!'));
         } else if(result) {
             seq = result.seq;
         }
