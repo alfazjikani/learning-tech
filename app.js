@@ -6,6 +6,7 @@ var logger = require('morgan');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var compression = require('compression');
+var helmet = require('helmet');
 
 var indexRouter = require('./routes/index');
 var studentRouter = require('./routes/student');
@@ -14,6 +15,9 @@ var app = express();
 
 // compress all routes
 app.use(compression());
+
+// protect from vulnerable attacks
+app.use(helmet());
 
 // initializing database connection
 var mongoose = require('mongoose');
