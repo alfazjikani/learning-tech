@@ -31,13 +31,18 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection failed!!'));
 
 // use session for login
+const SESSION_TIMEOUT_MINUTES = 5;
 app.use(session({
   secret: 'secret',
   resave: true,
   saveUninitialized: false,
   store: new MongoStore({
     mongooseConnection: db
-  })
+  }),
+  cookie: {
+    maxAge: SESSION_TIMEOUT_MINUTES * 60 * 1000
+  },
+  rolling: true
 }));
 
 // view engine setup
